@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CarRentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cartable">
+          <Key>
+            <PropertyRef Name="Car_id" />
+          </Key>
+          <Property Name="Car_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Make" Type="nchar" MaxLength="10" />
+          <Property Name="Model" Type="nchar" MaxLength="10" />
+          <Property Name="Color" Type="nchar" MaxLength="10" />
+          <Property Name="Year" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="CustomerName">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="10" />
+          <Property Name="Car_id" Type="int" />
+          <Property Name="Dob" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="NameTable">
+          <Key>
+            <PropertyRef Name="F_id" />
+          </Key>
+          <Property Name="F_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fullname" Type="nchar" MaxLength="20" />
+          <Property Name="Dob" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="UserNameTable">
+          <Key>
+            <PropertyRef Name="N_id" />
+          </Key>
+          <Property Name="N_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nchar" MaxLength="10" />
+          <Property Name="Password" Type="nchar" MaxLength="10" />
+          <Property Name="F_id" Type="int" />
+        </EntityType>
+        <Association Name="FK_UserNameTable_Table_2">
+          <End Role="NameTable" Type="Self.NameTable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserNameTable" Type="Self.UserNameTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NameTable">
+              <PropertyRef Name="F_id" />
+            </Principal>
+            <Dependent Role="UserNameTable">
+              <PropertyRef Name="F_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarRentModelStoreContainer">
+          <EntitySet Name="Cartable" EntityType="Self.Cartable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerName" EntityType="Self.CustomerName" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NameTable" EntityType="Self.NameTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserNameTable" EntityType="Self.UserNameTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_UserNameTable_Table_2" Association="Self.FK_UserNameTable_Table_2">
+            <End Role="NameTable" EntitySet="NameTable" />
+            <End Role="UserNameTable" EntitySet="UserNameTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarRentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cartable">
+          <Key>
+            <PropertyRef Name="Car_id" />
+          </Key>
+          <Property Name="Car_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Make" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Model" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Color" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Year" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CustomerName">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Car_id" Type="Int32" />
+          <Property Name="Dob" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="NameTable">
+          <Key>
+            <PropertyRef Name="F_id" />
+          </Key>
+          <Property Name="F_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fullname" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Dob" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="UserNameTables" Relationship="Self.FK_UserNameTable_Table_2" FromRole="NameTable" ToRole="UserNameTable" />
+        </EntityType>
+        <EntityType Name="UserNameTable">
+          <Key>
+            <PropertyRef Name="N_id" />
+          </Key>
+          <Property Name="N_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="F_id" Type="Int32" />
+          <NavigationProperty Name="NameTable" Relationship="Self.FK_UserNameTable_Table_2" FromRole="UserNameTable" ToRole="NameTable" />
+        </EntityType>
+        <Association Name="FK_UserNameTable_Table_2">
+          <End Role="NameTable" Type="Self.NameTable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserNameTable" Type="Self.UserNameTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NameTable">
+              <PropertyRef Name="F_id" />
+            </Principal>
+            <Dependent Role="UserNameTable">
+              <PropertyRef Name="F_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarRentEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cartables" EntityType="Self.Cartable" />
+          <EntitySet Name="CustomerNames" EntityType="Self.CustomerName" />
+          <EntitySet Name="NameTables" EntityType="Self.NameTable" />
+          <EntitySet Name="UserNameTables" EntityType="Self.UserNameTable" />
+          <AssociationSet Name="FK_UserNameTable_Table_2" Association="Self.FK_UserNameTable_Table_2">
+            <End Role="NameTable" EntitySet="NameTables" />
+            <End Role="UserNameTable" EntitySet="UserNameTables" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarRentModelStoreContainer" CdmEntityContainer="CarRentEntities1">
+          <EntitySetMapping Name="Cartables">
+            <EntityTypeMapping TypeName="CarRentModel.Cartable">
+              <MappingFragment StoreEntitySet="Cartable">
+                <ScalarProperty Name="Car_id" ColumnName="Car_id" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerNames">
+            <EntityTypeMapping TypeName="CarRentModel.CustomerName">
+              <MappingFragment StoreEntitySet="CustomerName">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Car_id" ColumnName="Car_id" />
+                <ScalarProperty Name="Dob" ColumnName="Dob" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NameTables">
+            <EntityTypeMapping TypeName="CarRentModel.NameTable">
+              <MappingFragment StoreEntitySet="NameTable">
+                <ScalarProperty Name="F_id" ColumnName="F_id" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="Dob" ColumnName="Dob" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserNameTables">
+            <EntityTypeMapping TypeName="CarRentModel.UserNameTable">
+              <MappingFragment StoreEntitySet="UserNameTable">
+                <ScalarProperty Name="N_id" ColumnName="N_id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="F_id" ColumnName="F_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
